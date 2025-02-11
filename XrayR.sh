@@ -276,7 +276,7 @@ install_bbr() {
 }
 
 update_shell() {
-    wget -O /usr/bin/XrayR -N --no-check-certificate https://raw.githubusercontent.com/chau020620/XrayR//XrayR.sh
+    wget -O /usr/bin/XrayR -N --no-check-certificate https://raw.githubusercontent.com/chau020620/XrayR/XrayR.sh
     if [[ $? != 0 ]]; then
         echo ""
         echo -e "${red}Tập lệnh tải không thành công, vui lòng kiểm tra kết nối đến Github${plain}"
