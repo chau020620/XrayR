@@ -36,7 +36,7 @@ fi
 arch=$(arch)
 
 if [[ $arch == "x86_64" || $arch == "x64" || $arch == "amd64" ]]; then
-    arch="64"
+    arch="amd64"
 elif [[ $arch == "aarch64" || $arch == "arm64" ]]; then
     arch="arm64-v8a"
 elif [[ $arch == "s390x" ]]; then
