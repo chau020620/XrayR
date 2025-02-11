@@ -8,7 +8,7 @@ plain='\033[0m'
 version="v1.0.0"
 
 # check root
-[[ $EUID -ne 0 ]] && echo -e "${red}错误: ${plain} 必须使用root用户运行此脚本！\n" && exit 1
+[[ $EUID -ne 0 ]] && echo -e "${red}Lỗi: ${plain} vui lòng cấp quyền truy cập root！\n" && exit 1
 
 # check os
 if [[ -f /etc/redhat-release ]]; then
@@ -32,7 +32,7 @@ elif cat /proc/version | grep -Eqi "ubuntu"; then
 elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
     release="centos"
 else
-    echo -e "${red}未检测到系统版本，请联系脚本作者！${plain}\n" && exit 1
+    echo -e "${red}Hệ điều hành hiện tại không hỗ trợ！${plain}\n" && exit 1
 fi
 
 os_version=""
@@ -47,21 +47,21 @@ fi
 
 if [[ x"${release}" == x"centos" ]]; then
     if [[ ${os_version} -le 6 ]]; then
-        echo -e "${red}请使用 CentOS 7 或更高版本的系统！${plain}\n" && exit 1
+        echo -e "${red}Hệ điều hành CentOS 7 trở lên！${plain}\n" && exit 1
     fi
 elif [[ x"${release}" == x"ubuntu" ]]; then
     if [[ ${os_version} -lt 16 ]]; then
-        echo -e "${red}请使用 Ubuntu 16 或更高版本的系统！${plain}\n" && exit 1
+        echo -e "${red}Hệ điều hành Ubuntu 16 trở lên！${plain}\n" && exit 1
     fi
 elif [[ x"${release}" == x"debian" ]]; then
     if [[ ${os_version} -lt 8 ]]; then
-        echo -e "${red}请使用 Debian 8 或更高版本的系统！${plain}\n" && exit 1
+        echo -e "${red}Hệ điều hành Debian 8 trở lên！${plain}\n" && exit 1
     fi
 fi
 
 confirm() {
     if [[ $# > 1 ]]; then
-        echo && read -p "$1 [默认$2]: " temp
+        echo && read -p "$1 [Mặc định$2]: " temp
         if [[ x"${temp}" == x"" ]]; then
             temp=$2
         fi
@@ -76,7 +76,7 @@ confirm() {
 }
 
 confirm_restart() {
-    confirm "是否重启XrayR" "y"
+    confirm "Có bắt đầu lại XrayR không?" "y"
     if [[ $? == 0 ]]; then
         restart
     else
@@ -85,12 +85,12 @@ confirm_restart() {
 }
 
 before_show_menu() {
-    echo && echo -n -e "${yellow}按回车返回主菜单: ${plain}" && read temp
+    echo && echo -n -e "${yellow}Nhấn Enter để quay lại menu chính: ${plain}" && read temp
     show_menu
 }
 
 install() {
-    bash <(curl -Ls https://raw.githubusercontent.com/XrayR-project/XrayR-release/master/install.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/XrayR-project/chau020620/XrayR/main/install.sh)
     if [[ $? == 0 ]]; then
         if [[ $# == 0 ]]; then
             start
@@ -102,7 +102,7 @@ install() {
 
 update() {
     if [[ $# == 0 ]]; then
-        echo && echo -n -e "输入指定版本(默认最新版): " && read version
+        echo && echo -n -e "Cập nhật phiên bản chỉ định(mặc định phiên bản mới nhất): " && read version
     else
         version=$2
     fi
@@ -114,9 +114,9 @@ update() {
 #        fi
 #        return 0
 #    fi
-    bash <(curl -Ls https://raw.githubusercontent.com/XrayR-project/XrayR-release/master/install.sh) $version
+    bash <(curl -Ls https://raw.githubusercontent.com/chau020620/XrayR/main/install.sh) $version
     if [[ $? == 0 ]]; then
-        echo -e "${green}更新完成，已自动重启 XrayR，请使用 XrayR log 查看运行日志${plain}"
+        echo -e "${green}Cập nhật thành công, XrayR sẽ tự động bắt đầu, sử dụng XrayR log để xem nhật ký.${plain}"
         exit
     fi
 
@@ -126,29 +126,29 @@ update() {
 }
 
 config() {
-    echo "XrayR在修改配置后会自动尝试重启"
+    echo "XrayR sẽ tự bắt đầu lại sau khi sửa đổi cấu hình"
     vi /etc/XrayR/config.yml
     sleep 2
     check_status
     case $? in
         0)
-            echo -e "XrayR状态: ${green}已运行${plain}"
+            echo -e "Trạng thái XrayR: ${green}Đang chạy${plain}"
             ;;
         1)
-            echo -e "检测到您未启动XrayR或XrayR自动重启失败，是否查看日志？[Y/n]" && echo
-            read -e -p "(默认: y):" yn
+            echo -e "XrayR không chạy, hoạc bắt đầu không thành công, bạn có muốn xem nhật ký không?[Y/n]" && echo
+            read -e -p "(Mặc : y):" yn
             [[ -z ${yn} ]] && yn="y"
             if [[ ${yn} == [Yy] ]]; then
                show_log
             fi
             ;;
         2)
-            echo -e "XrayR状态: ${red}未安装${plain}"
+            echo -e "Trạng thái XrayR: ${red}Chưa cài đặt${plain}"
     esac
 }
 
 uninstall() {
-    confirm "确定要卸载 XrayR 吗?" "n"
+    confirm "Bạn có chắc muốn gỡ cài đặt XrayR không?" "n"
     if [[ $? != 0 ]]; then
         if [[ $# == 0 ]]; then
             show_menu
@@ -164,7 +164,7 @@ uninstall() {
     rm /usr/local/XrayR/ -rf
 
     echo ""
-    echo -e "卸载成功，如果你想删除此脚本，则退出脚本后运行 ${green}rm /usr/bin/XrayR -f${plain} 进行删除"
+    echo -e "Đã gỡ cài đặt XrayR, sử dụng ${green}rm /usr/bin/XrayR -f${plain} để dọn dẹp bảng điều khiển"
     echo ""
 
     if [[ $# == 0 ]]; then
@@ -176,15 +176,15 @@ start() {
     check_status
     if [[ $? == 0 ]]; then
         echo ""
-        echo -e "${green}XrayR已运行，无需再次启动，如需重启请选择重启${plain}"
+        echo -e "${green}XrayR đang chạy, không cần khởi động lại${plain}"
     else
         systemctl start XrayR
         sleep 2
         check_status
         if [[ $? == 0 ]]; then
-            echo -e "${green}XrayR 启动成功，请使用 XrayR log 查看运行日志${plain}"
+            echo -e "${green}XrayR đã bắt đầu, sử dụng XrayR log để xem nhật ký hoạt động.${plain}"
         else
-            echo -e "${red}XrayR可能启动失败，请稍后使用 XrayR log 查看日志信息${plain}"
+            echo -e "${red}XrayR không thể bắt đầu, sử dụng XrayR log để xem nhật ký lỗi${plain}"
         fi
     fi
 
@@ -198,9 +198,9 @@ stop() {
     sleep 2
     check_status
     if [[ $? == 1 ]]; then
-        echo -e "${green}XrayR 停止成功${plain}"
+        echo -e "${green}XrayR đã dừng${plain}"
     else
-        echo -e "${red}XrayR停止失败，可能是因为停止时间超过了两秒，请稍后查看日志信息${plain}"
+        echo -e "${red}XrayR không thể dừng, có thể do thời gian thực hiện vượt quá 2s, vui lòng kiểm tra nhật ký.${plain}"
     fi
 
     if [[ $# == 0 ]]; then
@@ -213,9 +213,9 @@ restart() {
     sleep 2
     check_status
     if [[ $? == 0 ]]; then
-        echo -e "${green}XrayR 重启成功，请使用 XrayR log 查看运行日志${plain}"
+        echo -e "${green}XrayR đã bắt đầu, dùng XrayR log để xem nhật ký lỗi.${plain}"
     else
-        echo -e "${red}XrayR可能启动失败，请稍后使用 XrayR log 查看日志信息${plain}"
+        echo -e "${red}XrayR không thể bắt đầu, dùng XrayR log để xem nhật ký lỗi.${plain}"
     fi
     if [[ $# == 0 ]]; then
         before_show_menu
@@ -232,9 +232,9 @@ status() {
 enable() {
     systemctl enable XrayR
     if [[ $? == 0 ]]; then
-        echo -e "${green}XrayR 设置开机自启成功${plain}"
+        echo -e "${green}Đã đặt tự bắt đầu XrayR${plain}"
     else
-        echo -e "${red}XrayR 设置开机自启失败${plain}"
+        echo -e "${red}Không thể đặt tự bắt đầu XrayR${plain}"
     fi
 
     if [[ $# == 0 ]]; then
@@ -245,9 +245,9 @@ enable() {
 disable() {
     systemctl disable XrayR
     if [[ $? == 0 ]]; then
-        echo -e "${green}XrayR 取消开机自启成功${plain}"
+        echo -e "${green}Đã hủy tự bắt đầu XrayR${plain}"
     else
-        echo -e "${red}XrayR 取消开机自启失败${plain}"
+        echo -e "${red}Không thể hủy tự bắt đầu XrayR${plain}"
     fi
 
     if [[ $# == 0 ]]; then
@@ -276,14 +276,14 @@ install_bbr() {
 }
 
 update_shell() {
-    wget -O /usr/bin/XrayR -N --no-check-certificate https://raw.githubusercontent.com/XrayR-project/XrayR-release/master/XrayR.sh
+    wget -O /usr/bin/XrayR -N --no-check-certificate https://raw.githubusercontent.com/chau020620/XrayR//XrayR.sh
     if [[ $? != 0 ]]; then
         echo ""
-        echo -e "${red}下载脚本失败，请检查本机能否连接 Github${plain}"
+        echo -e "${red}Tập lệnh tải không thành công, vui lòng kiểm tra kết nối đến Github${plain}"
         before_show_menu
     else
         chmod +x /usr/bin/XrayR
-        echo -e "${green}升级脚本成功，请重新运行脚本${plain}" && exit 0
+        echo -e "${green}Tập lệnh tải xuống thành công, vui lòng chạy lại tập lệnh${plain}" && exit 0
     fi
 }
 
@@ -358,7 +358,7 @@ show_enable_status() {
     if [[ $? == 0 ]]; then
         echo -e "Tự bắt đầu: ${green}Mở${plain}"
     else
-        echo -e "Tự khởi động: ${red}Tắt${plain}"
+        echo -e "Tự bắt đầu: ${red}Tắt${plain}"
     fi
 }
 
@@ -377,7 +377,7 @@ show_usage() {
     echo "XrayR              - Mở bảng điều khiển XrayR"
     echo "XrayR start        - Bắt đầu XrayR"
     echo "XrayR stop         - Dừng XrayR"
-    echo "XrayR restart      - Khởi động lại XrayR"
+    echo "XrayR restart      - Bắt đầu lại XrayR"
     echo "XrayR status       - Trạng thái XrayR"
     echo "XrayR enable       - Đặt XrayR tự bắt đầu"
     echo "XrayR disable      - Hủy XrayR tự bắt đầu"
@@ -392,8 +392,8 @@ show_usage() {
 
 show_menu() {
     echo -e "
-  ${green}Chức năng XrayR ，${plain}${red}Không dùng cho docker${plain}
---- https://github.com/XrayR-project/XrayR ---
+  ${green}Bảng điều khiển XrayR ，${plain}${red}Không dùng cho docker${plain}
+--- https://github.com/chau020620/ ---
   ${green}0.${plain} Cấu hình
 ————————————————
   ${green}1.${plain} Cài đặt XrayR
@@ -402,12 +402,12 @@ show_menu() {
 ————————————————
   ${green}4.${plain} Bắt đầu XrayR
   ${green}5.${plain} Dừng XrayR
-  ${green}6.${plain} Khởi động lại XrayR
+  ${green}6.${plain} Bắt đầu lại XrayR
   ${green}7.${plain} Trạng thái XrayR
   ${green}8.${plain} Nhật ký XrayR
 ————————————————
-  ${green}9.${plain} Đặt XrayR tự khởi động
- ${green}10.${plain} Hủy XrayR tự khởi động
+  ${green}9.${plain} Đặt XrayR tự bắt đầu
+ ${green}10.${plain} Hủy XrayR tự bắt đầu
 ————————————————
  ${green}11.${plain} Cập nhật Kernel mới
  ${green}12.${plain} Phiên bản XrayR 
