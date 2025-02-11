@@ -49,7 +49,7 @@ fi
 echo "Cấu trúc: ${arch}"
 
 if [ "$(getconf WORD_BIT)" != '32' ] && [ "$(getconf LONG_BIT)" != '64' ] ; then
-    echo "Phiên bản 32bit(x86)，Phiên bản 64bit(x86_64"
+    echo "Phiên bản 32bit(x86)，Phiên bản 64bit(x86_64)"
     exit 2
 fi
 
