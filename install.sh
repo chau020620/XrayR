@@ -118,7 +118,7 @@ install_XrayR() {
             echo -e "${red}Không phát hiện được phiên bản XrayR, có thể do vượt quá giới hạn API github，vui lòng chọn phiên bản XrayR để cài đặt${plain}"
             exit 1
         fi
-        echo -e "Đã phát hiện phiên bản mới nhất của XrayR：${last_version}，đang cài đặt"
+        echo -e "${green}Đã phát hiện phiên bản mới nhất của XrayR：${last_version}，đang cài đặt${plain}"
         wget -q -N --no-check-certificate -O /usr/local/XrayR/XrayR-linux.zip https://github.com/XrayR-project/XrayR/releases/download/${last_version}/XrayR-linux-${arch}.zip
         if [[ $? -ne 0 ]]; then
             echo -e "${red}Không thể tải XrayR, kiểm tra kết nối tới Github${plain}"
