@@ -118,7 +118,7 @@ install_XrayR() {
             echo -e "${red}Không phát hiện được phiên bản XrayR, có thể do vượt quá giới hạn API github，vui lòng chọn phiên bản XrayR để cài đặt${plain}"
             exit 1
         fi
-        echo -e "Đã phát hiện phiên bản mới nhất của XrayR：${last_version}，để cài đặt"
+        echo -e "Đã phát hiện phiên bản mới nhất của XrayR：${last_version}，đang cài đặt"
         wget -q -N --no-check-certificate -O /usr/local/XrayR/XrayR-linux.zip https://github.com/XrayR-project/XrayR/releases/download/${last_version}/XrayR-linux-${arch}.zip
         if [[ $? -ne 0 ]]; then
             echo -e "${red}Không thể tải XrayR, kiểm tra kết nối tới Github${plain}"
@@ -150,7 +150,7 @@ install_XrayR() {
     systemctl daemon-reload
     systemctl stop XrayR
     systemctl enable XrayR
-    echo -e "${green}XrayR ${last_version}${plain} Cài đặt xong, tự khởi động đã được mở"
+    echo -e "${green}XrayR ${last_version}${plain} Cài đặt xong, tự bắt đầu đã được mở"
     cp geoip.dat /etc/XrayR/
     cp geosite.dat /etc/XrayR/ 
 
@@ -164,9 +164,9 @@ install_XrayR() {
         check_status
         echo -e ""
         if [[ $? == 0 ]]; then
-            echo -e "${green}XrayR Khởi động lại thành công${plain}"
+            echo -e "${green}XrayR bắt đầu thành công${plain}"
         else
-            echo -e "${red}XrayR không thể khởi động, sử dụng XrayR log để xem nhật ký, tham khảo cách thiết lập tại：https://github.com/XrayR-project/XrayR/wiki${plain}"
+            echo -e "${red}XrayR không thể bắt đầu, sử dụng XrayR log để xem nhật ký, tham khảo cách thiết lập tại：https://github.com/XrayR-project/XrayR/wiki${plain}"
         fi
     fi
 

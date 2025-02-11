@@ -393,7 +393,7 @@ show_usage() {
 show_menu() {
     echo -e "
   ${green}Bảng điều khiển XrayR ，${plain}${red}Không dùng cho docker${plain}
---- https://github.com/chau020620/ ---
+--- https://github.com/chau020620/XrayR ---
   ${green}0.${plain} Cấu hình
 ————————————————
   ${green}1.${plain} Cài đặt XrayR
