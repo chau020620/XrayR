@@ -24,6 +24,7 @@ Dự án này chỉ là học tập và phát triển và bảo trì cá nhân c
 ## Đặt điểm nổi bật
 
 * Nguồn mở vĩnh viễn và miễn phí.
+* Hỗ trợ hệ điều hành Armbian
 * Hỗ trợ V2Ray, Trojan, Shadowsocks nhiều giao thức.
 * Hỗ trợ các tính năng mới như Vless và XTL.
 * Hỗ trợ trường hợp đơn lẻ kết nối Multi -Panel và Multi -Node, không cần phải bắt đầu nhiều lần.
@@ -68,7 +69,11 @@ Dự án này chỉ là học tập và phát triển và bảo trì cá nhân c
 ```
 wget -N https://raw.githubusercontent.com/chau020620/XrayR/main/install.sh && bash install.sh
 ```
+### Cập nhật từ phiên bản cũ
 
+```
+bash <(curl -Ls https://raw.githubusercontent.com/chau020620/XrayR/main/install.sh)
+```
 ### Sử dụng phần mềm triển khai Docker
 
 [Hướng dẫn cài đặt thông qua Docker](https://xrayr-project.github.io/XrayR-doc/xrayr-xia-zai-he-an-zhuang/install/docker)
